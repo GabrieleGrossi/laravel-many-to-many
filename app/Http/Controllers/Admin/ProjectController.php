@@ -54,11 +54,10 @@ class ProjectController extends Controller
         }
 
         $newProject = Project::create($data);
-        return redirect()->route('admin.projects.index');
-
         if ($request->has('technologies')){
             $newPost->technologies()->sync( $request->technologies);
         }
+        return redirect()->route('admin.projects.index');
     }
 
     /**
