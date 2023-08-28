@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Project;
+use App\Models\Type;
 use App\Models\Technology;
-use App\Models\Types;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
@@ -31,7 +31,7 @@ class ProjectController extends Controller
         //
         $types = Type::all();
         $technologies = Technology::all();
-        return view('admin.projects.create', compact('types', 'technology'));
+        return view('admin.projects.create', compact('types', 'technologies'));
     }
 
     /**
@@ -41,7 +41,7 @@ class ProjectController extends Controller
     {
         //
         $data = $request->validate([
-            'name' => ['required', 'unique:projects','min:3', 'max:255'],
+            'name' => ['required', 'unique:projects', 'min:3', 'max:255'],
             'goal' => ['required', 'min:10'],
             'link' => ['min:20'],
             'image' => ['image'],
@@ -76,7 +76,7 @@ class ProjectController extends Controller
     public function edit(Project $project)
     {
         //
-        // $types = Type::all();
+        //$types = Type::all();
         $technologies = Technology::all();
         return view('admin.projects.edit', compact('project', 'technologies'));
     }
@@ -101,7 +101,7 @@ class ProjectController extends Controller
         }
 
         if ($request->has('technologies')){
-            $post->technologies()->sync( $request->technologies);
+            $project->technology()->sync( $request->technologies);
         }
 
         $project->update($data);

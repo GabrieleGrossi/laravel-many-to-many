@@ -14,7 +14,7 @@
                     </h5>
                     @if (count ($project->technology)> 0)
                         <h6 class="card-header">
-                            @foreach ($project->technologies as $technology)
+                            @foreach ($project->technology as $technology)
                                 {{ $technology->name }} -- 
                             @endforeach
                         </h6>
