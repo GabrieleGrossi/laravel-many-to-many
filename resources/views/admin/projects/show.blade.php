@@ -12,6 +12,13 @@
                     <h5 class="card-title">
                         {{ $project->name}}
                     </h5>
+                    @if (count ($project->technology)> 0)
+                        <h6 class="card-header">
+                            @foreach ($project->technologies as $technology)
+                                {{ $technology->name }} -- 
+                            @endforeach
+                        </h6>
+                    @endif
                     <p class="card-text">
                         {{ $project->goal}}
                     </p>

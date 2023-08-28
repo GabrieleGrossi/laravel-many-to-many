@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Project;
+use App\Models\Technology;
+use App\Models\Types;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
@@ -27,7 +29,9 @@ class ProjectController extends Controller
     public function create()
     {
         //
-        return view('admin.projects.create');
+        $types = Type::all();
+        $technologies = Technology::all();
+        return view('admin.projects.create', compact('types', 'technology'));
     }
 
     /**
@@ -41,6 +45,8 @@ class ProjectController extends Controller
             'goal' => ['required', 'min:10'],
             'link' => ['min:20'],
             'image' => ['image'],
+            'technology' => ['exists:technology,id'],
+            'type'=> ['required', 'exists:type,id'],
         ]);
         if ($request->hasFile('image')){
             $img_path = Storage::put('uploads/projects', $request['image']);
@@ -49,6 +55,10 @@ class ProjectController extends Controller
 
         $newProject = Project::create($data);
         return redirect()->route('admin.projects.index');
+
+        if ($request->has('technologies')){
+            $newPost->technologies()->sync( $request->technologies);
+        }
     }
 
     /**
@@ -66,7 +76,9 @@ class ProjectController extends Controller
     public function edit(Project $project)
     {
         //
-        return view('admin.projects.edit', compact('project'));
+        // $types = Type::all();
+        $technologies = Technology::all();
+        return view('admin.projects.edit', compact('project', 'technologies'));
     }
 
     /**
@@ -88,6 +100,10 @@ class ProjectController extends Controller
             $data['image'] = $img_path;
         }
 
+        if ($request->has('technologies')){
+            $post->technologies()->sync( $request->technologies);
+        }
+
         $project->update($data);
 
         return redirect()->route('admin.projects.show', compact('project'));
@@ -101,6 +117,7 @@ class ProjectController extends Controller
         //
         $project->delete();
         //Storage::delete($project->image);
+        $post->technologies()->detach();
         return redirect()->route('admin.projects.index');
 
         
