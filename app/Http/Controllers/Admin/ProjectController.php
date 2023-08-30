@@ -40,19 +40,22 @@ class ProjectController extends Controller
     public function store(Request $request)
     {
         //
+        //dd($request->all());
         $data = $request->validate([
             'name' => ['required', 'unique:projects', 'min:3', 'max:255'],
-            'type'=> ['required', 'exists:types,id'],
+            'type_id'=> ['required', 'exists:types,id'],
             'goal' => ['required', 'min:10'],
             'link' => ['min:10'],
             'technology' => ['exists:technologies,id'],
             'image' => ['image'],
         ]);
+        
 
         if ($request->hasFile('image')){
             $img_path = Storage::put('uploads/projects', $request['image']);
             $data['image'] = $img_path;
         }
+        //dd($data);
 
         $newProject = Project::create($data);
         if ($request->has('technologies')){

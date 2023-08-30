@@ -21,10 +21,16 @@
                     <div class="alert alert-danger">{{ $message }}</div>
                 @enderror
                 <div class="mb-5">
-                    <label for="types" class="form-label">
+                    <label for="type_id" class="form-label">
                         Type
                     </label>
-                    <input type="text" class="form-control" id="type" placeholder="Insert your project's type" name="type" value="{{old('type', '')}}">
+                    <select class="form-select" id="type_id" name="type_id">
+                        @foreach ($types as $type)
+                            <option value="{{ $type->id }}" {{ old('type_id') == $type->id ? 'selected' : '' }}>
+                                {{ $type->name }}
+                            </option>
+                        @endforeach
+                    </select>
                 </div>
 
                 @error('goal')
