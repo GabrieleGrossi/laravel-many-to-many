@@ -14,17 +14,17 @@
                     <label for="name" class="form-label">
                         Name
                     </label>
-                    <input type="text" class="form-control" id="name" placeholder="Insert your project's name" name="name">
+                    <input type="text" class="form-control" id="name" placeholder="Insert your project's name" name="name" value="{{old('name', '')}}">
                 </div>
 
                 @error('type')
                     <div class="alert alert-danger">{{ $message }}</div>
                 @enderror
                 <div class="mb-5">
-                    <label for="type" class="form-label">
+                    <label for="types" class="form-label">
                         Type
                     </label>
-                    <input type="text" class="form-control" id="type" placeholder="Insert your project's type" name="type">
+                    <input type="text" class="form-control" id="type" placeholder="Insert your project's type" name="type" value="{{old('type', '')}}">
                 </div>
 
                 @error('goal')
@@ -34,7 +34,7 @@
                     <label for="goal" class="form-label">
                         Goal
                     </label>
-                    <input type="text" class="form-control" id="goal" placeholder="Insert the project's goal" name="goal">
+                    <input type="text" class="form-control" id="goal" placeholder="Insert the project's goal" name="goal" value="{{old('goal', '')}}">
                 </div>
 
                 @error('link')
@@ -44,7 +44,7 @@
                     <label for="link" class="form-label">
                         Link
                     </label>
-                    <textarea class="form-control" id="link" rows="1" name="link">
+                    <textarea class="form-control" id="link" rows="1" name="link" value="{{old('link', '')}}">
                     </textarea>
                 </div>
 
@@ -58,8 +58,8 @@
 
                     <div>
                         @foreach ($technologies as $technology)
-                            <input type="checkbox" name="technologies[]" class="form-check-input" id="technologies" value="{{ $technology->id }}" @if( in_array($technology->id, old('$technologies', []))) checked @endif>
-                            <label for="technologies" class="form-check-label me-3">
+                            <input type="checkbox" name="technology[]" class="form-check-input" id="technology" value="{{ $technology->id }}" @if( in_array($technology->id, old('$technology', []))) checked @endif>
+                            <label for="technology" class="form-check-label me-3">
                                 {{ $technology->name }}
                             </label>
                         @endforeach
@@ -73,7 +73,7 @@
                     <label for="image" class="form-label">
                         Image
                     </label>
-                    <input type="text" class="form-control" id="image" placeholder="https://ginetto-va-in-campagna-col-cappello.jpg" name="image">
+                    <input type="file" class="form-control" id="image" placeholder="https://ginetto-va-in-campagna-col-cappello.jpg" name="image" value="{{old('image', '')}}">
                 </div>
 
                 <div class="mb-3">

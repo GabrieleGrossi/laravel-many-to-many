@@ -42,12 +42,13 @@ class ProjectController extends Controller
         //
         $data = $request->validate([
             'name' => ['required', 'unique:projects', 'min:3', 'max:255'],
+            'type'=> ['required', 'exists:types,id'],
             'goal' => ['required', 'min:10'],
-            'link' => ['min:20'],
+            'link' => ['min:10'],
+            'technology' => ['exists:technologies,id'],
             'image' => ['image'],
-            'technology' => ['exists:technology,id'],
-            'type'=> ['required', 'exists:type,id'],
         ]);
+
         if ($request->hasFile('image')){
             $img_path = Storage::put('uploads/projects', $request['image']);
             $data['image'] = $img_path;
