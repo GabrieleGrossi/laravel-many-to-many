@@ -44,9 +44,9 @@ class ProjectController extends Controller
         $data = $request->validate([
             'name' => ['required', 'unique:projects', 'min:3', 'max:255'],
             'type_id'=> ['required', 'exists:types,id'],
+            'technology' => ['exists:technologies,id'],
             'goal' => ['required', 'min:10'],
             'link' => ['min:10'],
-            'technology' => ['exists:technologies,id'],
             'image' => ['image'],
         ]);
         
@@ -95,6 +95,8 @@ class ProjectController extends Controller
             'goal' => ['required', 'min:10'],
             'link' => ['min:20'],
             'image'=> ['image'],
+            'type_id'=> ['required', 'exists:types,id'],
+            'technology' => ['exists:technologies,id'],
         ]);
         
         if ($request->hasFile('image')){
@@ -104,7 +106,7 @@ class ProjectController extends Controller
         }
 
         if ($request->has('technologies')){
-            $project->technology()->sync( $request->technologies);
+            $project->technologies()->sync( $request->technologies);
         }
 
         $project->update($data);
